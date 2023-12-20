@@ -30,14 +30,28 @@ class GameScene: SKScene {
         let background = SKSpriteNode(color: SKColor(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)), size: CGSize(width: view.bounds.width, height: view.bounds.height))
         background.zPosition = -10 //set the background z-position to be behind everything else
         background.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2) //center position the node
-        
         self.addChild(background)
+        
+        //create the home button
+        let homeButton = UIButton()
+        homeButton.frame = CGRect(
+            x: 10,
+            y: 10,
+            width: UIScreen.main.bounds.width / 8,
+            height: UIScreen.main.bounds.width / 8
+        )
+        homeButton.setTitle("<", for: .normal)
+        homeButton.backgroundColor = .brown
+        homeButton.titleLabel?.font = UIFont(name: "ChalkboardSE-Bold", size: 28)
+        homeButton.layer.cornerRadius = 5
+        homeButton.addTarget(self, action: #selector(homeButtonClicked), for: .touchUpInside)
+        self.view?.addSubview(homeButton)
+        
         
         //create the player node
         player = SKSpriteNode(imageNamed: "DefaultCar")
         player.size = CGSize(width: CAR_WIDTH, height: CAR_HEIGHT)
         player.position = CGPoint(x: view.bounds.width / 2, y: CAR_HEIGHT)
-        
         self.addChild(player)
         
         //generate all the road background nodes
@@ -52,6 +66,10 @@ class GameScene: SKScene {
             }
         }
         
+    }
+    
+    @objc func homeButtonClicked() {
+        Tools.instance.changeScenes(fromScene: self, toSceneType: Tools.SceneType.MainMenu)
     }
     
     override func update(_ currentTime: TimeInterval) {

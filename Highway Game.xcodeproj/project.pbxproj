@@ -17,6 +17,8 @@
 		9A27D4832B30371500F8ABFE /* Highway_GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A27D4822B30371500F8ABFE /* Highway_GameTests.swift */; };
 		9A27D48D2B30371500F8ABFE /* Highway_GameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A27D48C2B30371500F8ABFE /* Highway_GameUITests.swift */; };
 		9A27D48F2B30371500F8ABFE /* Highway_GameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A27D48E2B30371500F8ABFE /* Highway_GameUITestsLaunchTests.swift */; };
+		9A325F602B3283380034120F /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A325F5F2B3283380034120F /* MainMenuScene.swift */; };
+		9A325F622B3283E50034120F /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A325F612B3283E50034120F /* Tools.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		9A27D4882B30371500F8ABFE /* Highway GameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Highway GameUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A27D48C2B30371500F8ABFE /* Highway_GameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highway_GameUITests.swift; sourceTree = "<group>"; };
 		9A27D48E2B30371500F8ABFE /* Highway_GameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highway_GameUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9A325F5F2B3283380034120F /* MainMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
+		9A325F612B3283E50034120F /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,12 +105,14 @@
 			isa = PBXGroup;
 			children = (
 				9A27D4682B30371100F8ABFE /* AppDelegate.swift */,
+				9A27D4722B30371100F8ABFE /* Main.storyboard */,
+				9A27D4772B30371400F8ABFE /* LaunchScreen.storyboard */,
 				9A27D46C2B30371100F8ABFE /* Actions.sks */,
 				9A27D46E2B30371100F8ABFE /* GameScene.swift */,
+				9A325F5F2B3283380034120F /* MainMenuScene.swift */,
 				9A27D4702B30371100F8ABFE /* GameViewController.swift */,
-				9A27D4722B30371100F8ABFE /* Main.storyboard */,
+				9A325F612B3283E50034120F /* Tools.swift */,
 				9A27D4752B30371400F8ABFE /* Assets.xcassets */,
-				9A27D4772B30371400F8ABFE /* LaunchScreen.storyboard */,
 			);
 			path = "Highway Game";
 			sourceTree = "<group>";
@@ -262,7 +268,9 @@
 			files = (
 				9A27D46F2B30371100F8ABFE /* GameScene.swift in Sources */,
 				9A27D4712B30371100F8ABFE /* GameViewController.swift in Sources */,
+				9A325F602B3283380034120F /* MainMenuScene.swift in Sources */,
 				9A27D4692B30371100F8ABFE /* AppDelegate.swift in Sources */,
+				9A325F622B3283E50034120F /* Tools.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,8 +459,8 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -481,8 +489,8 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
