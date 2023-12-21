@@ -19,6 +19,8 @@
 		9A27D48F2B30371500F8ABFE /* Highway_GameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A27D48E2B30371500F8ABFE /* Highway_GameUITestsLaunchTests.swift */; };
 		9A325F602B3283380034120F /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A325F5F2B3283380034120F /* MainMenuScene.swift */; };
 		9A325F622B3283E50034120F /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A325F612B3283E50034120F /* Tools.swift */; };
+		9AB7E2FC2B3394EB004E83A7 /* GameGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7E2FB2B3394EA004E83A7 /* GameGenerator.swift */; };
+		9AB7E2FE2B3397DA004E83A7 /* GameTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7E2FD2B3397DA004E83A7 /* GameTools.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		9A27D48E2B30371500F8ABFE /* Highway_GameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highway_GameUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9A325F5F2B3283380034120F /* MainMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
 		9A325F612B3283E50034120F /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		9AB7E2FB2B3394EA004E83A7 /* GameGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGenerator.swift; sourceTree = "<group>"; };
+		9AB7E2FD2B3397DA004E83A7 /* GameTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,10 +112,12 @@
 				9A27D4722B30371100F8ABFE /* Main.storyboard */,
 				9A27D4772B30371400F8ABFE /* LaunchScreen.storyboard */,
 				9A27D46C2B30371100F8ABFE /* Actions.sks */,
+				9AB7E2FB2B3394EA004E83A7 /* GameGenerator.swift */,
 				9A27D46E2B30371100F8ABFE /* GameScene.swift */,
 				9A325F5F2B3283380034120F /* MainMenuScene.swift */,
 				9A27D4702B30371100F8ABFE /* GameViewController.swift */,
 				9A325F612B3283E50034120F /* Tools.swift */,
+				9AB7E2FD2B3397DA004E83A7 /* GameTools.swift */,
 				9A27D4752B30371400F8ABFE /* Assets.xcassets */,
 			);
 			path = "Highway Game";
@@ -267,6 +273,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A27D46F2B30371100F8ABFE /* GameScene.swift in Sources */,
+				9AB7E2FE2B3397DA004E83A7 /* GameTools.swift in Sources */,
+				9AB7E2FC2B3394EB004E83A7 /* GameGenerator.swift in Sources */,
 				9A27D4712B30371100F8ABFE /* GameViewController.swift in Sources */,
 				9A325F602B3283380034120F /* MainMenuScene.swift in Sources */,
 				9A27D4692B30371100F8ABFE /* AppDelegate.swift in Sources */,
