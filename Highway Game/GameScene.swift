@@ -12,7 +12,7 @@ class GameScene: SKScene {
     
     var player: SKSpriteNode!
     
-    var gameObstacles: [GameObstacle] = []
+    var gameObstacles: [GameObstacle] = [] //array of all the loaded game obstacles
     
     override func didMove(to view: SKView) {
         
@@ -57,26 +57,45 @@ class GameScene: SKScene {
             }
         }
         
-        let generatedObstacles = GameGenerator.instance.generateChunk() //generate a chunk of obstacles
+        var generatedObstacles = GameGenerator.instance.generateChunk(sceneYPosition: 1000) //generate a chunk of obstacles
+        
+        //loop through all the generated objects to create nodes for each one
+        for i in 0..<generatedObstacles.count {
+            //create obstacle node
+            let obstacleNode = SKSpriteNode(imageNamed: generatedObstacles[i].type.rawValue)
+            obstacleNode.size = GameTools.instance.getObstacleSize(type: generatedObstacles[i].type)
+            obstacleNode.position = generatedObstacles[i].startPosition
+            obstacleNode.physicsBody = SKPhysicsBody(rectangleOf: obstacleNode.size)
+            obstacleNode.physicsBody?.isDynamic = false
+            
+            generatedObstacles[i].node = obstacleNode //save the node to the game object
+            self.addChild(obstacleNode)
+        }
         
         gameObstacles = gameObstacles + generatedObstacles //combine the old obstacles with the new ones
-        
-        for i in 0..<generatedObstacles.count {
-            let obstacle = SKSpriteNode(imageNamed: generatedObstacles[i].type.rawValue)
-            obstacle.size = GameTools.instance.getObstacleSize(type: generatedObstacles[i].type)
-            obstacle.position = generatedObstacles[i].startPosition
-            
-            obstacle.physicsBody = SKPhysicsBody(rectangleOf: obstacle.size)
-            //obstacle.physicsBody?.mass =
-            self.addChild(obstacle)
-        }
     }
     
+    //called when the home button is clicked
     @objc func homeButtonClicked() {
         Tools.instance.changeScenes(fromScene: self, toSceneType: Tools.SceneType.MainMenu)
     }
     
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //loop through all the touches that moved
+        for touch in touches {
+            let location = touch.location(in: self) //get location of the touch
+            
+            //check if the touch's y-position is in range of the lower part of the screen
+            if(location.y < UIScreen.main.bounds.height / 3) {
+                player.position.x = location.x
+            }
+        }
+    }
+    
+    //called before a frame is rendered
     override func update(_ currentTime: TimeInterval) {
-        
+        for i in 0..<gameObstacles.count {
+            gameObstacles[i].node.position.y -= GameTools.currentGameSpeed
+        }
     }
 }
