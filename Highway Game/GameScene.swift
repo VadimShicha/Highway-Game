@@ -8,12 +8,15 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var player: SKSpriteNode!
     
     var gameObstacles: [GameObstacle] = [] //array of all the loaded game obstacles
     var roadNodes: [[SKSpriteNode]] = [[]]
+    
+    let playerCategoryMask: UInt32 = 0x1 << 0
+    let obstacleCategoryMask: UInt32 = 0x1 << 1
     
     override func didMove(to view: SKView) {
         
@@ -38,12 +41,18 @@ class GameScene: SKScene {
         homeButton.addTarget(self, action: #selector(homeButtonClicked), for: .touchUpInside)
         self.view?.addSubview(homeButton)
         
+        self.physicsWorld.contactDelegate = self
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         //create the player node
         player = SKSpriteNode(imageNamed: "DefaultCar")
         player.size = CGSize(width: GameTools.CAR_WIDTH, height: GameTools.CAR_HEIGHT)
         player.position = CGPoint(x: view.bounds.width / 2, y: GameTools.CAR_HEIGHT)
         player.zPosition = 1 //make the player on a higher z-position than all the obstacles
+        player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
+        player.physicsBody?.categoryBitMask = playerCategoryMask
+        player.physicsBody?.contactTestBitMask = obstacleCategoryMask
+        player.physicsBody?.usesPreciseCollisionDetection = true
         self.addChild(player)
         
         //generate all the road background nodes
@@ -79,7 +88,8 @@ class GameScene: SKScene {
             obstacleNode.size = GameTools.instance.getObstacleSize(type: generatedObstacles[i].type)
             obstacleNode.position = generatedObstacles[i].startPosition
             obstacleNode.physicsBody = SKPhysicsBody(rectangleOf: obstacleNode.size)
-            obstacleNode.physicsBody?.isDynamic = false //remove all physics from this node
+            obstacleNode.physicsBody?.categoryBitMask = obstacleCategoryMask
+            obstacleNode.physicsBody?.contactTestBitMask = playerCategoryMask
             
             generatedObstacles[i].node = obstacleNode //save the node to the game object
             generatedObstacles[i].chunkIndex = currentChunkIndex //set the chunk index (used to figure which chunk is being removed)
@@ -88,6 +98,14 @@ class GameScene: SKScene {
         
         gameObstacles = gameObstacles + generatedObstacles //combine the old obstacles with the new ones
         currentChunkIndex += 1
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        //check if the player is colliding with an obstacle
+        if((contact.bodyA.categoryBitMask == playerCategoryMask && contact.bodyB.categoryBitMask == obstacleCategoryMask) ||
+           (contact.bodyA.categoryBitMask == obstacleCategoryMask && contact.bodyB.categoryBitMask == playerCategoryMask)) {
+            print("You lost")
+        }
     }
     
     //called when the home button is clicked
