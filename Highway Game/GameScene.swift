@@ -13,6 +13,7 @@ class GameScene: SKScene {
     var player: SKSpriteNode!
     
     var gameObstacles: [GameObstacle] = [] //array of all the loaded game obstacles
+    var roadNodes: [[SKSpriteNode]] = [[]]
     
     override func didMove(to view: SKView) {
         
@@ -46,15 +47,20 @@ class GameScene: SKScene {
         self.addChild(player)
         
         //generate all the road background nodes
-        for y in 0...10 {
+        for y in 0...15 {
+            var roadRowArray: [SKSpriteNode] = []
+            
             for x in 0...4 {
                 //create the road node
                 let road = SKSpriteNode(imageNamed: "Road")
                 road.size = CGSize(width: GameTools.ROAD_WIDTH, height: GameTools.ROAD_HEIGHT)
-                road.position = CGPoint(x: (view.bounds.width / 2) + ((CGFloat(x) - 2) * GameTools.ROAD_WIDTH), y: CGFloat(y) * GameTools.ROAD_HEIGHT)
+                road.position = CGPoint(x: (view.bounds.width / 2) + ((CGFloat(x) - 2) * GameTools.ROAD_WIDTH), y: (CGFloat(y) - 5) * GameTools.ROAD_HEIGHT)
                 road.zPosition = -1
+                roadRowArray.append(road)
                 self.addChild(road)
             }
+            
+            roadNodes.append(roadRowArray)
         }
         
         var generatedObstacles = GameGenerator.instance.generateChunk(sceneYPosition: 1000) //generate a chunk of obstacles
@@ -86,16 +92,32 @@ class GameScene: SKScene {
             let location = touch.location(in: self) //get location of the touch
             
             //check if the touch's y-position is in range of the lower part of the screen
-            if(location.y < UIScreen.main.bounds.height / 3) {
+            if(location.y < UIScreen.main.bounds.height / 2) {
                 player.position.x = location.x
             }
         }
     }
     
+    var roadYOffset: CGFloat = 0 //offset added to road nodes y-positions
+    
     //called before a frame is rendered
     override func update(_ currentTime: TimeInterval) {
         for i in 0..<gameObstacles.count {
             gameObstacles[i].node.position.y -= GameTools.currentGameSpeed
+        }
+        
+        roadYOffset -= GameTools.currentGameSpeed //make the road offsets be in sync with the moving obstacles
+        
+        //if the road offset is atleast a road-width then add a road height (makes the road nodes loop back seamlessly)
+        if(roadYOffset <= -GameTools.ROAD_HEIGHT) {
+            roadYOffset += GameTools.ROAD_HEIGHT
+        }
+        
+        //update all the road node's y-position offsets
+        for row in 0..<roadNodes.count {
+            for column in 0..<roadNodes[row].count {
+                roadNodes[row][column].position.y = ((CGFloat(row) - 5) * GameTools.ROAD_HEIGHT) + roadYOffset //same equation used for inital position except offset
+            }
         }
     }
 }
