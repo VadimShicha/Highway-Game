@@ -9,18 +9,20 @@ import Foundation
 import SpriteKit
 
 enum ObstacleType: String {
-    case Car = "OrangeCar", Truck = "Truck", Cone = "Cone", Pothole = "Pothole"
+    case Empty = "Empty", Car = "OrangeCar", Truck = "Truck", Cone = "Cone", Pothole = "Pothole"
 }
 
 struct GameObstacle {
     var type: ObstacleType
     var startPosition: CGPoint //used to give initial position when creating a sprite based on this struct
     var node: SKNode
+    var chunkIndex: Int
     
     init(type: ObstacleType, startPosition: CGPoint) {
         self.type = type
         self.startPosition = startPosition
         self.node = SKSpriteNode(color: SKColor.red, size: CGSize(width: 0, height: 0)) //create a blank sprite node
+        self.chunkIndex = -1
     }
 }
 

@@ -24,7 +24,7 @@ class GameTools {
     static let LANE_AMOUNT: Int = 5
     
     static var currentGameMode: GameMode = GameMode.Freeplay //the current game mode of the game
-    static var currentGameSpeed: CGFloat = 10 //speed of the obstacles moving down
+    static var currentGameSpeed: CGFloat = 6 //speed of the obstacles moving down
     
     //gets the scene x-position by using the lane number (note: lane number 0 is the left lane)
     func getLaneXPositon(laneNumber: Int) -> CGFloat {
