@@ -26,6 +26,14 @@ class GameTools {
     static var currentGameMode: GameMode = GameMode.Freeplay //the current game mode of the game
     static var currentGameSpeed: CGFloat = 6 //speed of the obstacles moving down
     
+    static var gameOver: Bool = false
+    static var distanceTraveled: CGFloat = 0
+    
+    //sets up all the variables for the game
+    static func setupGame() {
+        gameOver = false
+    }
+    
     //gets the scene x-position by using the lane number (note: lane number 0 is the left lane)
     func getLaneXPositon(laneNumber: Int) -> CGFloat {
         let screenCenterX = UIScreen.main.bounds.width / 2 //the center x-position of the screen

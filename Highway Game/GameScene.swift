@@ -12,6 +12,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var player: SKSpriteNode!
     
+    var scoreLabel: UILabel!
+    
     var gameObstacles: [GameObstacle] = [] //array of all the loaded game obstacles
     var roadNodes: [[SKSpriteNode]] = [[]]
     
@@ -41,6 +43,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         homeButton.addTarget(self, action: #selector(homeButtonClicked), for: .touchUpInside)
         self.view?.addSubview(homeButton)
         
+        //create the score label
+        let scoreLabel = UILabel()
+        scoreLabel.frame = Tools.instance.createCenteredRect(
+            x: UIScreen.main.bounds.width - (UIScreen.main.bounds.width / 4) - 5,
+            y: 15,
+            width: UIScreen.main.bounds.width / 2,
+            height: UIScreen.main.bounds.width / 8
+        )
+        scoreLabel.font = UIFont(name: "ChalkboardSE-Bold", size: 30)
+        scoreLabel.textAlignment = .right
+        scoreLabel.text = "0m"
+        self.view?.addSubview(scoreLabel)
+        
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
@@ -49,10 +64,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.size = CGSize(width: GameTools.CAR_WIDTH, height: GameTools.CAR_HEIGHT)
         player.position = CGPoint(x: view.bounds.width / 2, y: GameTools.CAR_HEIGHT)
         player.zPosition = 1 //make the player on a higher z-position than all the obstacles
-        player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
+        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: GameTools.CAR_WIDTH / 1.25, height: GameTools.CAR_HEIGHT / 1.25))
         player.physicsBody?.categoryBitMask = playerCategoryMask
         player.physicsBody?.contactTestBitMask = obstacleCategoryMask
         player.physicsBody?.usesPreciseCollisionDetection = true
+        player.constraints = [SKConstraint.positionY(SKRange(lowerLimit: GameTools.CAR_HEIGHT, upperLimit: UIScreen.main.bounds.height))] //prevent from moving
         self.addChild(player)
         
         //generate all the road background nodes
@@ -104,7 +120,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //check if the player is colliding with an obstacle
         if((contact.bodyA.categoryBitMask == playerCategoryMask && contact.bodyB.categoryBitMask == obstacleCategoryMask) ||
            (contact.bodyA.categoryBitMask == obstacleCategoryMask && contact.bodyB.categoryBitMask == playerCategoryMask)) {
-            print("You lost")
+            
+            //make the game end slightly later to see the car actually crash
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                print("You lost")
+                GameTools.gameOver = true
+            }
         }
     }
     
@@ -118,15 +139,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch in touches {
             let location = touch.location(in: self) //get location of the touch
             
-            //check if the touch's y-position is in range of the lower part of the screen
-            if(location.y < UIScreen.main.bounds.height / 2) {
-                player.position.x = location.x
+            //only allow the player to move when the game isn't over
+            if(!GameTools.gameOver) {
+                //check if the touch's y-position is in range of the lower part of the screen
+                if(location.y < UIScreen.main.bounds.height / 2) {
+                    player.position.x = location.x
+                }
             }
         }
     }
     
     var roadYOffset: CGFloat = 0 //offset added to road nodes y-positions
     var lastUpdateTime: TimeInterval = -1 //keeps track of when the last update frame occurred
+    
+    var showingGameOverUI: Bool = false
     
     //called before a frame is rendered
     override func update(_ currentTime: TimeInterval) {
@@ -138,38 +164,86 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //the time that elapsed between this and the last update frame (useful when creating time based logic that should be the same on all device speeds)
         let timeBetweenFrames = currentTime - lastUpdateTime
         
-        gameObstacles = gameObstacles.filter({$0.type != ObstacleType.Empty}) //remove any empty objects in the array
-        
-        //loop through all the game obstacles and update the y-position
-        for i in 0..<gameObstacles.count {
-            gameObstacles[i].node.position.y -= GameTools.currentGameSpeed * CGFloat(timeBetweenFrames) * 100 //move the obstacle down the scene
+        //if the game over UI isn't shown and the game is over, show it
+        if(!showingGameOverUI && GameTools.gameOver) {
+            showingGameOverUI = true
             
-            //check all the objects that fall beneath the screen view
-            if(gameObstacles[i].node.position.y < -UIScreen.main.bounds.height / 2) {
-                gameObstacles[i].node.removeFromParent() //remove the node from the scene
+            let gameOverPane = UILabel()
+            gameOverPane.frame = Tools.instance.createCenteredRect(
+                x: UIScreen.main.bounds.width / 2,
+                y: UIScreen.main.bounds.height / 2,
+                width: UIScreen.main.bounds.width / 1.25,
+                height: UIScreen.main.bounds.height / 3
+            )
+            gameOverPane.backgroundColor = SKColor.lightGray
+            self.view?.addSubview(gameOverPane)
+            
+            let gameOverTitleLabel = UILabel()
+            gameOverTitleLabel.frame = Tools.instance.createCenteredRect(
+                x: UIScreen.main.bounds.width / 2,
+                y: UIScreen.main.bounds.height / 2.6,
+                width: UIScreen.main.bounds.width / 1.25,
+                height: UIScreen.main.bounds.height / 16
+            )
+            gameOverTitleLabel.text = "You Crashed!"
+            gameOverTitleLabel.textAlignment = .center
+            gameOverTitleLabel.font = UIFont(name: "ChalkboardSE-Bold", size: 45)
+            self.view?.addSubview(gameOverTitleLabel)
+            
+            //create the home button
+            let homeButton = UIButton()
+            homeButton.frame = Tools.instance.createCenteredRect(
+                x: UIScreen.main.bounds.width / 2,
+                y: UIScreen.main.bounds.height / 1.7,
+                width: UIScreen.main.bounds.width / 5,
+                height: UIScreen.main.bounds.height / 16
+            )
+            homeButton.setTitle("Home", for: .normal)
+            homeButton.backgroundColor = .brown
+            homeButton.titleLabel?.font = UIFont(name: "ChalkboardSE-Bold", size: 28)
+            homeButton.layer.cornerRadius = 5
+            homeButton.addTarget(self, action: #selector(homeButtonClicked), for: .touchUpInside)
+            self.view?.addSubview(homeButton)
+        }
+        
+        //if the game isn't over, update the player and obstacles
+        if(!GameTools.gameOver) {
+            gameObstacles = gameObstacles.filter({$0.type != ObstacleType.Empty}) //remove any empty objects in the array
+            
+            //loop through all the game obstacles and update the y-position
+            for i in 0..<gameObstacles.count {
+                gameObstacles[i].node.position.y -= GameTools.currentGameSpeed * CGFloat(timeBetweenFrames) * 100 //move the obstacle down the scene
                 
-                //if the last chunk's first object got deleted, spawn the next chunk
-                if(gameObstacles[i].chunkIndex + 1 == currentChunkIndex) {
-                    addNewChunk()
+                //check all the objects that fall beneath the screen view
+                if(gameObstacles[i].node.position.y < -UIScreen.main.bounds.height / 2) {
+                    gameObstacles[i].node.removeFromParent() //remove the node from the scene
+                    
+                    //if the last chunk's first object got deleted, spawn the next chunk
+                    if(gameObstacles[i].chunkIndex + 1 == currentChunkIndex) {
+                        addNewChunk()
+                    }
+                    
+                    gameObstacles[i].type = ObstacleType.Empty //set the obstacle type to Empty so the next frame it will be removed
                 }
-                
-                gameObstacles[i].type = ObstacleType.Empty //set the obstacle type to Empty so the next frame it will be removed
+            }
+            
+            roadYOffset -= GameTools.currentGameSpeed * CGFloat(timeBetweenFrames) * 100 //make the road offsets be in sync with the moving obstacles
+            GameTools.distanceTraveled += GameTools.currentGameSpeed * CGFloat(timeBetweenFrames) * 100
+            
+            
+            //if the road offset is atleast a road-width then add a road height (makes the road nodes loop back seamlessly)
+            if(roadYOffset <= -GameTools.ROAD_HEIGHT) {
+                roadYOffset += GameTools.ROAD_HEIGHT
+            }
+            
+            //update all the road node's y-position offsets
+            for row in 0..<roadNodes.count {
+                for column in 0..<roadNodes[row].count {
+                    roadNodes[row][column].position.y = ((CGFloat(row) - 5) * GameTools.ROAD_HEIGHT) + roadYOffset //same equation used for inital position except offset
+                }
             }
         }
         
-        roadYOffset -= GameTools.currentGameSpeed * CGFloat(timeBetweenFrames) * 100 //make the road offsets be in sync with the moving obstacles
-        
-        //if the road offset is atleast a road-width then add a road height (makes the road nodes loop back seamlessly)
-        if(roadYOffset <= -GameTools.ROAD_HEIGHT) {
-            roadYOffset += GameTools.ROAD_HEIGHT
-        }
-        
-        //update all the road node's y-position offsets
-        for row in 0..<roadNodes.count {
-            for column in 0..<roadNodes[row].count {
-                roadNodes[row][column].position.y = ((CGFloat(row) - 5) * GameTools.ROAD_HEIGHT) + roadYOffset //same equation used for inital position except offset
-            }
-        }
         
         lastUpdateTime = currentTime //update the variable for the next update cycle
     }

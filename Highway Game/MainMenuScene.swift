@@ -77,6 +77,7 @@ class MainMenuScene: SKScene {
     
     
     @objc func buttonPressed() {
+        GameTools.setupGame()
         Tools.instance.changeScenes(fromScene: self, toSceneType: Tools.SceneType.Game)
     }
     
