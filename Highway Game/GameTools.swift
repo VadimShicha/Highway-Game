@@ -32,6 +32,7 @@ class GameTools {
     //sets up all the variables for the game
     static func setupGame() {
         gameOver = false
+        distanceTraveled = 0
     }
     
     //gets the scene x-position by using the lane number (note: lane number 0 is the left lane)
@@ -47,6 +48,8 @@ class GameTools {
                 return CGSize(width: GameTools.CAR_WIDTH, height: GameTools.CAR_HEIGHT)
             case ObstacleType.Cone:
                 return CGSize(width: GameTools.CAR_WIDTH, height: GameTools.CAR_WIDTH)
+            case ObstacleType.Truck:
+                return CGSize(width: GameTools.CAR_WIDTH, height: GameTools.CAR_WIDTH * 2.734375)
             case ObstacleType.Pothole:
                 return CGSize(width: GameTools.CAR_WIDTH / 1.5, height: GameTools.CAR_HEIGHT / 1.5)
             default:

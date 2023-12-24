@@ -69,14 +69,16 @@ class GameGenerator {
     }
     
     //generates a chunk of the main games obstacles
-    func generateChunk(sceneYPosition: CGFloat) -> [GameObstacle] {
+    func generateChunk(sceneYPosition: CGFloat) -> (obstacles: [GameObstacle], chunkSize: Int) {
         
-        //scenePositionY: CGFloat
         var obstacles: [GameObstacle] = []
+        var chunkSize = 1000 //this variable needs to be set to the size of the chunk
         
-        let chunkType = Int.random(in: 0...0)
+        let chunkType = Int.random(in: 0...3)
         
         if(chunkType == 0) {
+            
+            chunkSize = 2500
             
             obstacles += createCarRow(startLane: 1, endLane: 3, holeAmount: 1, yPosition: sceneYPosition)
             
@@ -94,23 +96,29 @@ class GameGenerator {
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition + 400))
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 400))
             
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 450))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition + 450))
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 450))
             
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 500))
-
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 500))
+            
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 550))
+
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 600))
             
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 2, y: sceneYPosition + 600))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 650))
             
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 2, y: sceneYPosition + 650))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 700))
             
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 700))
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 750))
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 800))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 2, y: sceneYPosition + 750))
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 2, y: sceneYPosition + 800))
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 850))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 900))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 950))
             
             obstacles += createCarRow(startLane: 1, endLane: 3, holeAmount: 2, yPosition: sceneYPosition + 1200)
-            
             
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition + 1500))
             
@@ -129,20 +137,87 @@ class GameGenerator {
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 1750))
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition + 1750))
             
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 1800))
-
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 1850))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 1800))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition + 1800))
             
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 2, y: sceneYPosition + 1900))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 1850))
+
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 1900))
             
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 2, y: sceneYPosition + 1950))
             
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 2000))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 2, y: sceneYPosition + 2000))
+            
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 2050))
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 2100))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 2150))
+        }
+        else if(chunkType == 1) {
+            chunkSize = 2500
+            
+            obstacles += createCarRow(startLane: 1, endLane: 3, holeAmount: 1, yPosition: sceneYPosition)
+            
+            obstacles += createCarRow(startLane: 1, endLane: 3, holeAmount: 2, yPosition: sceneYPosition + 300)
+            
+            obstacles += createCarRow(startLane: 1, endLane: 3, holeAmount: 2, yPosition: sceneYPosition + 600)
+            
+            obstacles += createCarRow(startLane: 1, endLane: 3, holeAmount: 2, yPosition: sceneYPosition + 900)
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition + 1200))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 1200))
+            
+            obstacles += createCarRow(startLane: 0, endLane: 4, holeAmount: 2, yPosition: sceneYPosition + 1500)
+            
+            obstacles += createCarRow(startLane: 0, endLane: 4, holeAmount: 2, yPosition: sceneYPosition + 1800)
+            
+            obstacles += createCarRow(startLane: 0, endLane: 4, holeAmount: 2, yPosition: sceneYPosition + 2100)
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition + 2400))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 2400))
+        }
+        else if(chunkType == 2) {
+            chunkSize = 1000
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition))
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition + 300))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 300))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 300))
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 2, y: sceneYPosition + 600))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 600))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 600))
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition + 900))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 900))
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 900))
+        }
+        else if(chunkType == 3) {
+            chunkSize = 1400
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 0, y: sceneYPosition))
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 4, y: sceneYPosition))
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 0, y: sceneYPosition + 400))
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 1, y: sceneYPosition + 400))
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 4, y: sceneYPosition + 400))
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 2, y: sceneYPosition + 800))
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 3, y: sceneYPosition + 800))
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 4, y: sceneYPosition + 800))
+            
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 0, y: sceneYPosition + 1200))
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 3, y: sceneYPosition + 1200))
+            obstacles.append(createGameObstacle(type: ObstacleType.Truck, lane: 4, y: sceneYPosition + 1200))
         }
         
+        //chunkSize = 10000
         
-        return obstacles
+        //for i in 0...20 {
+        //    obstacles += createCarRow(startLane: 1, endLane: 3, holeAmount: 2, yPosition: sceneYPosition + CGFloat(i * 500))
+        //}
+        
+        return (obstacles: obstacles, chunkSize: chunkSize)
     }
 }

@@ -44,7 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.addSubview(homeButton)
         
         //create the score label
-        let scoreLabel = UILabel()
+        scoreLabel = UILabel()
         scoreLabel.frame = Tools.instance.createCenteredRect(
             x: UIScreen.main.bounds.width - (UIScreen.main.bounds.width / 4) - 5,
             y: 15,
@@ -92,10 +92,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     var currentChunkIndex: Int = 0 //chunk index of the current chunk that is coming or on screen
+    var currentChunkSize: Int = 1000 //chunk size (used to spawn new chunks)
+    
     
     //generates and adds the new chunk to the view
     func addNewChunk() {
-        var generatedObstacles = GameGenerator.instance.generateChunk(sceneYPosition: 2500) //generate a chunk of obstacles
+        let chunkReturns = GameGenerator.instance.generateChunk(sceneYPosition: 1500) //generate a chunk of obstacles
+        
+        var generatedObstacles = chunkReturns.obstacles
+        currentChunkSize = chunkReturns.chunkSize
         
         //loop through all the generated objects to create nodes for each one
         for i in 0..<generatedObstacles.count {
@@ -190,6 +195,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameOverTitleLabel.font = UIFont(name: "ChalkboardSE-Bold", size: 45)
             self.view?.addSubview(gameOverTitleLabel)
             
+            let gameOverDistanceLabel = UILabel()
+            gameOverDistanceLabel.frame = Tools.instance.createCenteredRect(
+                x: UIScreen.main.bounds.width / 2,
+                y: UIScreen.main.bounds.height / 2.1,
+                width: UIScreen.main.bounds.width / 1.25,
+                height: UIScreen.main.bounds.height / 16
+            )
+            gameOverDistanceLabel.text = "You traveled " + String(Int(GameTools.distanceTraveled)) + " meters"
+            gameOverDistanceLabel.textAlignment = .center
+            gameOverDistanceLabel.font = UIFont(name: "ChalkboardSE-Bold", size: 23)
+            self.view?.addSubview(gameOverDistanceLabel)
+            
             //create the home button
             let homeButton = UIButton()
             homeButton.frame = Tools.instance.createCenteredRect(
@@ -215,7 +232,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 gameObstacles[i].node.position.y -= GameTools.currentGameSpeed * CGFloat(timeBetweenFrames) * 100 //move the obstacle down the scene
                 
                 //check all the objects that fall beneath the screen view
-                if(gameObstacles[i].node.position.y < -UIScreen.main.bounds.height / 2) {
+                if(gameObstacles[i].node.position.y < -UIScreen.main.bounds.height / 2 - CGFloat(currentChunkSize)) {
                     gameObstacles[i].node.removeFromParent() //remove the node from the scene
                     
                     //if the last chunk's first object got deleted, spawn the next chunk
@@ -228,8 +245,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             roadYOffset -= GameTools.currentGameSpeed * CGFloat(timeBetweenFrames) * 100 //make the road offsets be in sync with the moving obstacles
-            GameTools.distanceTraveled += GameTools.currentGameSpeed * CGFloat(timeBetweenFrames) * 100
+            GameTools.distanceTraveled += GameTools.currentGameSpeed * CGFloat(timeBetweenFrames) * 10
             
+            //the label may be nil when the update is called before setup
+            if(scoreLabel != nil) {
+                scoreLabel.text = String(Int(GameTools.distanceTraveled)) + "m"
+            }
             
             //if the road offset is atleast a road-width then add a road height (makes the road nodes loop back seamlessly)
             if(roadYOffset <= -GameTools.ROAD_HEIGHT) {
