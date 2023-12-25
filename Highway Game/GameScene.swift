@@ -75,7 +75,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for y in 0...15 {
             var roadRowArray: [SKSpriteNode] = []
             
-            for x in 0...4 {
+            for x in 0..<GameTools.currentGameLaneAmount {
                 //create the road node
                 let road = SKSpriteNode(imageNamed: "Road")
                 road.size = CGSize(width: GameTools.ROAD_WIDTH, height: GameTools.ROAD_HEIGHT)

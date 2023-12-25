@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 
 enum GameMode {
-    case Freeplay
+    case Freeplay, TripleLane
 }
 
 class GameTools {
@@ -24,6 +24,7 @@ class GameTools {
     static let LANE_AMOUNT: Int = 5
     
     static var currentGameMode: GameMode = GameMode.Freeplay //the current game mode of the game
+    static var currentGameLaneAmount: Int = 5
     static var currentGameSpeed: CGFloat = 6 //speed of the obstacles moving down
     
     static var gameOver: Bool = false

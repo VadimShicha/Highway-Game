@@ -37,27 +37,41 @@ class MainMenuScene: SKScene {
         freeplayButton.titleLabel?.font = UIFont(name: "ChalkboardSE-Bold", size: 25)
         freeplayButton.layer.cornerRadius = 5
         freeplayButton.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-        freeplayButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        freeplayButton.addTarget(self, action: #selector(freeplayButtonClicked), for: .touchUpInside)
         
         
-        let settingsButton = UIButton()
-        settingsButton.frame = Tools.instance.createCenteredRect(
+        let gameModesButton = UIButton()
+        gameModesButton.frame = Tools.instance.createCenteredRect(
             x: UIScreen.main.bounds.width / 2,
             y: (UIScreen.main.bounds.height / 2) + (UIScreen.main.bounds.height / 16) + 10,
             width: UIScreen.main.bounds.width / 2,
             height: UIScreen.main.bounds.height / 16
         )
-        settingsButton.setTitle("Game Modes", for: .normal)
+        gameModesButton.setTitle("Game Modes", for: .normal)
+        gameModesButton.titleLabel?.font = UIFont(name: "ChalkboardSE-Bold", size: 25)
+        gameModesButton.layer.cornerRadius = 5
+        gameModesButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        gameModesButton.addTarget(self, action: #selector(gameModesButtonClicked), for: .touchUpInside)
+        
+        
+        let settingsButton = UIButton()
+        settingsButton.frame = Tools.instance.createCenteredRect(
+            x: UIScreen.main.bounds.width / 2,
+            y: (UIScreen.main.bounds.height / 2) + 2 * ((UIScreen.main.bounds.height / 16) + 10),
+            width: UIScreen.main.bounds.width / 2,
+            height: UIScreen.main.bounds.height / 16
+        )
+        settingsButton.setTitle("Settings", for: .normal)
         settingsButton.titleLabel?.font = UIFont(name: "ChalkboardSE-Bold", size: 25)
         settingsButton.layer.cornerRadius = 5
-        settingsButton.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
-        settingsButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        settingsButton.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        settingsButton.addTarget(self, action: #selector(freeplayButtonClicked), for: .touchUpInside)
         
         
         let aboutButton = UIButton()
         aboutButton.frame = Tools.instance.createCenteredRect(
             x: UIScreen.main.bounds.width / 2,
-            y: (UIScreen.main.bounds.height / 2) + 2 * ((UIScreen.main.bounds.height / 16) + 10),
+            y: (UIScreen.main.bounds.height / 2) + 3 * ((UIScreen.main.bounds.height / 16) + 10),
             width: UIScreen.main.bounds.width / 2,
             height: UIScreen.main.bounds.height / 16
         )
@@ -65,20 +79,26 @@ class MainMenuScene: SKScene {
         aboutButton.titleLabel?.font = UIFont(name: "ChalkboardSE-Bold", size: 25)
         aboutButton.layer.cornerRadius = 5
         aboutButton.backgroundColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
-        aboutButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        aboutButton.addTarget(self, action: #selector(freeplayButtonClicked), for: .touchUpInside)
         
         
         self.view?.addSubview(titleLabel)
         self.view?.addSubview(freeplayButton)
+        self.view?.addSubview(gameModesButton)
         self.view?.addSubview(settingsButton)
         self.view?.addSubview(aboutButton)
     }
     
     
     
-    @objc func buttonPressed() {
+    @objc func freeplayButtonClicked() {
         GameTools.setupGame()
         Tools.instance.changeScenes(fromScene: self, toSceneType: Tools.SceneType.Game)
+    }
+    
+    @objc func gameModesButtonClicked() {
+        GameTools.setupGame()
+        Tools.instance.changeScenes(fromScene: self, toSceneType: Tools.SceneType.GameModes)
     }
     
     override func update(_ currentTime: TimeInterval) {

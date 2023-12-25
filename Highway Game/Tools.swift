@@ -10,7 +10,7 @@ import SpriteKit
 
 class Tools {
     enum SceneType {
-        case MainMenu, Game
+        case MainMenu, GameModes, Game
     }
     
     static let instance = Tools() //single reference to this class
@@ -56,6 +56,8 @@ class Tools {
         switch sceneType {
             case SceneType.MainMenu:
                 return MainMenuScene(size: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+            case SceneType.GameModes:
+                return GameModesScene(size: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
             case SceneType.Game:
                 return GameScene(size: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
         }

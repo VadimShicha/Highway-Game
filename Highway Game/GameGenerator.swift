@@ -50,7 +50,7 @@ class GameGenerator {
             totalHoles = laneAmount
         }
         
-        let holeLaneNumber = Int.random(in: startLane...(endLane - totalHoles)) //lane number of where there isn't a car
+        let holeLaneNumber = Int.random(in: startLane...(startLane + (endLane - totalHoles))) //lane number of where there isn't a car
         
         for i in 0..<laneAmount {
             
@@ -185,9 +185,9 @@ class GameGenerator {
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 300))
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 300))
             
+            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 1, y: sceneYPosition + 600))
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 2, y: sceneYPosition + 600))
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 600))
-            obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 4, y: sceneYPosition + 600))
             
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 0, y: sceneYPosition + 900))
             obstacles.append(createGameObstacle(type: ObstacleType.Cone, lane: 3, y: sceneYPosition + 900))
