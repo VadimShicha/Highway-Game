@@ -79,7 +79,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //create the road node
                 let road = SKSpriteNode(imageNamed: "Road")
                 road.size = CGSize(width: GameTools.ROAD_WIDTH, height: GameTools.ROAD_HEIGHT)
-                road.position = CGPoint(x: (view.bounds.width / 2) + ((CGFloat(x) - 2) * GameTools.ROAD_WIDTH), y: (CGFloat(y) - 5) * GameTools.ROAD_HEIGHT)
+                let screenCenterX = view.bounds.width / 2
+                let lanesOffsetX = (CGFloat(x) - CGFloat(Int(GameTools.currentGameLaneAmount / 2))) * GameTools.ROAD_WIDTH
+                let roadX = screenCenterX + lanesOffsetX
+
+                road.position = CGPoint(x: roadX, y: (CGFloat(y) - 5) * GameTools.ROAD_HEIGHT)
                 road.zPosition = -1
                 roadRowArray.append(road)
                 self.addChild(road)

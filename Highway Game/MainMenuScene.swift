@@ -92,12 +92,13 @@ class MainMenuScene: SKScene {
     
     
     @objc func freeplayButtonClicked() {
+        GameTools.currentGameMode = GameMode.Freeplay
+        GameTools.currentGameLaneAmount = 5
         GameTools.setupGame()
         Tools.instance.changeScenes(fromScene: self, toSceneType: Tools.SceneType.Game)
     }
     
     @objc func gameModesButtonClicked() {
-        GameTools.setupGame()
         Tools.instance.changeScenes(fromScene: self, toSceneType: Tools.SceneType.GameModes)
     }
     

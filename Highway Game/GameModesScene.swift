@@ -82,7 +82,10 @@ class GameModesScene: SKScene {
     }
     
     @objc func tripleLanesButtonClicked() {
-        
+        GameTools.currentGameMode = GameMode.TripleLane
+        GameTools.currentGameLaneAmount = 3
+        GameTools.setupGame()
+        Tools.instance.changeScenes(fromScene: self, toSceneType: Tools.SceneType.Game)
     }
     
     override func update(_ currentTime: TimeInterval) {

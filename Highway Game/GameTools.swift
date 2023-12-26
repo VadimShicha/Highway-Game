@@ -21,7 +21,7 @@ class GameTools {
     static let CAR_WIDTH: CGFloat = ROAD_WIDTH / 1.25 //set car width to be smaller than road width (Default: 56.0)
     static let CAR_HEIGHT: CGFloat = ROAD_HEIGHT / 1.25 //set car height to be smaller than road height (Default: 87.5)
     
-    static let LANE_AMOUNT: Int = 5
+    //static let LANE_AMOUNT: Int = 5
     
     static var currentGameMode: GameMode = GameMode.Freeplay //the current game mode of the game
     static var currentGameLaneAmount: Int = 5
@@ -39,7 +39,7 @@ class GameTools {
     //gets the scene x-position by using the lane number (note: lane number 0 is the left lane)
     func getLaneXPositon(laneNumber: Int) -> CGFloat {
         let screenCenterX = UIScreen.main.bounds.width / 2 //the center x-position of the screen
-        return screenCenterX + (CGFloat(laneNumber - Int(GameTools.LANE_AMOUNT / 2)) * GameTools.ROAD_WIDTH)
+        return screenCenterX + (CGFloat(laneNumber - Int(GameTools.currentGameLaneAmount / 2)) * GameTools.ROAD_WIDTH)
     }
     
     //gives the size for an obstacle (proportional to the screen size)
